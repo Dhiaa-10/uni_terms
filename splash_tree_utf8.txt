@@ -1,0 +1,40 @@
+- Section  Splash Γ£ô [SECTION] | colors: rgba(43, 43, 43, 1.0)
+  - Splash [FRAME]
+    - Component Status bar [INSTANCE]
+      - Time / Light [FRAME]
+        - 9:41 [FRAME]
+          - 9:41 [VECTOR] | colors: rgba(255, 255, 255, 1.0)
+      - Status Icons [FRAME]
+        - Network Signal /┬áLight [FRAME] | colors: rgba(255, 255, 255, 1.0)
+          - Path [VECTOR] | colors: rgba(255, 255, 255, 1.0)
+          - Path [VECTOR] | colors: rgba(255, 255, 255, 1.0)
+          - Path [VECTOR] | colors: rgba(255, 255, 255, 1.0)
+          - Empty Bar [VECTOR] | colors: rgba(255, 255, 255, 1.0)
+          - Path [VECTOR] | colors: rgba(255, 255, 255, 1.0)
+          - Path [VECTOR] | colors: rgba(255, 255, 255, 1.0)
+          - Path [VECTOR] | colors: rgba(255, 255, 255, 1.0)
+          - Empty Bar [VECTOR] | colors: rgba(0, 0, 0, 1.0)
+        - WiFi Signal / Light [FRAME] | colors: rgba(255, 255, 255, 1.0)
+          - Path [VECTOR] | colors: rgba(255, 255, 255, 1.0)
+          - Path [VECTOR] | colors: rgba(255, 255, 255, 1.0)
+          - Path [VECTOR] | colors: rgba(255, 255, 255, 1.0)
+        - Battery / Light [FRAME] | colors: rgba(255, 255, 255, 1.0)
+          - ⌠Çïª [VECTOR] | colors: rgba(255, 255, 255, 1.0)
+          - Subtract [VECTOR] | colors: rgba(235, 235, 245, 1.0)
+          - Rectangle 23 [VECTOR] | colors: rgba(255, 255, 255, 1.0)
+          - Battery [GROUP]
+            - 100 [VECTOR] | colors: rgba(52, 199, 89, 1.0)
+            - 50 [VECTOR] | colors: rgba(52, 199, 89, 1.0)
+            - 10 [VECTOR] | colors: rgba(255, 214, 10, 1.0)
+          - Rectangle 21 (Stroke) [VECTOR] | colors: rgba(255, 255, 255, 1.0)
+          - Rectangle 20 [RECTANGLE] | colors: rgba(255, 255, 255, 1.0)
+    - Container [FRAME]
+      - Container logo [FRAME]
+        - Component Icon Logo [INSTANCE] | colors: rgba(255, 255, 255, 1.0)
+          - Book Open [FRAME]
+            - Vector [VECTOR] | colors: rgba(255, 255, 255, 1.0)
+            - Vector [VECTOR] | colors: rgba(255, 255, 255, 1.0)
+      - Container Text [FRAME]
+        - UniTerms [TEXT] | text: 'UniTerms' | font: Pretendard Variable, size: 20.0, weight: 600 | colors: rgba(255, 255, 255, 1.0)
+    - Component Notification  [INSTANCE] | colors: rgba(0, 0, 0, 1.0)
+      - Vector [VECTOR]

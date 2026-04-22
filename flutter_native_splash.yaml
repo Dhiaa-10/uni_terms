@@ -1,0 +1,10 @@
+flutter_native_splash:
+  color: "#EFE7F5"
+  image: "assets/icons/logo_group.png"
+  android: true
+  ios: true
+  fullscreen: true
+
+  android_12:
+    color: "#EFE7F5"
+    image: "assets/icons/logo_group.png"

@@ -1,0 +1,113 @@
+  SECTION: "Section  onbording Γ£ô" fills=['SOLID #2b2b2b'] w=2484.0 h=1500.0 corner=None padding=None spacing=None
+    FRAME: "onbording_04" fills=['SOLID #efe7f5'] w=375.0 h=792.0 corner=None padding=None spacing=10.0
+      INSTANCE: "Component Status bar" fills=[] w=375.0 h=32.0 corner=None padding=16.0 spacing=243.0
+        FRAME: "Time / Light" fills=[] w=32.426170349121094 h=15.0888671875 corner=20.0 padding=2.0 spacing=10.0
+          FRAME: "9:41" fills=[] w=28.42616844177246 h=11.0888671875 corner=None padding=None spacing=10.0
+        FRAME: "Status Icons" fills=[] w=69.0 h=14.0 corner=None padding=None spacing=4.0
+          FRAME: "Network Signal /┬áLight" fills=['SOLID #ffffff'] w=20.0 h=14.0 corner=None padding=None spacing=None
+          FRAME: "WiFi Signal / Light" fills=['SOLID #ffffff'] w=16.0 h=14.0 corner=None padding=None spacing=None
+          FRAME: "Battery / Light" fills=['SOLID #ffffff'] w=25.0 h=14.0 corner=None padding=None spacing=None
+            RECTANGLE: "Rectangle 20" fills=['SOLID #000000'] w=19.0 h=8.0 corner=1.0 padding=None spacing=None
+      FRAME: "Container" fills=[] w=375.0 h=746.0 corner=None padding=None spacing=128.0
+        FRAME: "Container text" fills=[] w=375.0 h=66.0 corner=None padding=16.0 spacing=None
+          INSTANCE: "Component 57" fills=['SOLID #efe7f5'] w=55.0 h=34.0 corner=12.0 padding=8.0 spacing=4.0
+            INSTANCE: "curved / globe-1" fills=[] w=18.0 h=18.0 corner=None padding=None spacing=None
+        INSTANCE: "Component_card_onbording " fills=[] w=375.0 h=342.0 corner=None padding=16.0 spacing=32.0
+          FRAME: "card_onbording_01" fills=['SOLID #ffffff'] w=343.0 h=243.0 corner=16.0 padding=16.0 spacing=32.0
+            FRAME: "Container_heading" fills=[] w=311.0 h=59.0 corner=None padding=None spacing=8.0
+            FRAME: "Container_body" fills=[] w=311.0 h=88.0 corner=None padding=None spacing=8.0
+              FRAME: "text_01" fills=[] w=311.0 h=24.0 corner=None padding=None spacing=8.0
+                FRAME: "CheckCircle" fills=['SOLID #ffffff'] w=24.0 h=24.0 corner=None padding=None spacing=None
+              FRAME: "text_02" fills=[] w=311.0 h=24.0 corner=None padding=None spacing=8.0
+                FRAME: "CheckCircle" fills=['SOLID #ffffff'] w=24.0 h=24.0 corner=None padding=None spacing=None
+              FRAME: "text_03" fills=[] w=311.0 h=24.0 corner=None padding=None spacing=8.0
+                FRAME: "CheckCircle" fills=['SOLID #ffffff'] w=24.0 h=24.0 corner=None padding=None spacing=None
+          FRAME: "Frame " fills=[] w=60.0 h=29.0 corner=None padding=None spacing=8.0
+        FRAME: "Container Notification onbording" fills=[] w=375.0 h=110.0 corner=None padding=16.0 spacing=8.0
+          INSTANCE: "Component_botton_onbording" fills=['SOLID #280e1b'] w=343.0 h=51.0 corner=16.0 padding=16.0 spacing=8.0
+          INSTANCE: "Component_botton_onbording" fills=[] w=343.0 h=35.0 corner=16.0 padding=16.0 spacing=4.0
+      INSTANCE: "Component Notification " fills=['SOLID #000000'] w=375.0 h=14.0 corner=None padding=16.0 spacing=10.0
+    FRAME: "onbording_03" fills=['SOLID #efe7f5'] w=375.0 h=792.0 corner=None padding=None spacing=10.0
+      INSTANCE: "Component Status bar" fills=[] w=375.0 h=32.0 corner=None padding=16.0 spacing=243.0
+        FRAME: "Time / Light" fills=[] w=32.426170349121094 h=15.0888671875 corner=20.0 padding=2.0 spacing=10.0
+          FRAME: "9:41" fills=[] w=28.42616844177246 h=11.0888671875 corner=None padding=None spacing=10.0
+        FRAME: "Status Icons" fills=[] w=69.0 h=14.0 corner=None padding=None spacing=4.0
+          FRAME: "Network Signal /┬áLight" fills=['SOLID #ffffff'] w=20.0 h=14.0 corner=None padding=None spacing=None
+          FRAME: "WiFi Signal / Light" fills=['SOLID #ffffff'] w=16.0 h=14.0 corner=None padding=None spacing=None
+          FRAME: "Battery / Light" fills=['SOLID #ffffff'] w=25.0 h=14.0 corner=None padding=None spacing=None
+            RECTANGLE: "Rectangle 20" fills=['SOLID #000000'] w=19.0 h=8.0 corner=1.0 padding=None spacing=None
+      FRAME: "Container" fills=[] w=375.0 h=746.0 corner=None padding=None spacing=128.0
+        FRAME: "Container text" fills=[] w=375.0 h=66.0 corner=None padding=16.0 spacing=None
+          INSTANCE: "Component 57" fills=['SOLID #efe7f5'] w=55.0 h=34.0 corner=12.0 padding=8.0 spacing=4.0
+            INSTANCE: "curved / globe-1" fills=[] w=18.0 h=18.0 corner=None padding=None spacing=None
+        INSTANCE: "Component_card_onbording " fills=[] w=375.0 h=342.0 corner=None padding=16.0 spacing=32.0
+          FRAME: "card_onbording_01" fills=['SOLID #ffffff'] w=343.0 h=243.0 corner=16.0 padding=16.0 spacing=32.0
+            FRAME: "Container_heading" fills=[] w=311.0 h=59.0 corner=None padding=None spacing=8.0
+            FRAME: "Container_body" fills=[] w=311.0 h=88.0 corner=None padding=None spacing=8.0
+              FRAME: "text_01" fills=[] w=311.0 h=24.0 corner=None padding=None spacing=8.0
+                FRAME: "CheckCircle" fills=['SOLID #ffffff'] w=24.0 h=24.0 corner=None padding=None spacing=None
+              FRAME: "text_02" fills=[] w=311.0 h=24.0 corner=None padding=None spacing=8.0
+                FRAME: "CheckCircle" fills=['SOLID #ffffff'] w=24.0 h=24.0 corner=None padding=None spacing=None
+              FRAME: "text_03" fills=[] w=311.0 h=24.0 corner=None padding=None spacing=8.0
+                FRAME: "CheckCircle" fills=['SOLID #ffffff'] w=24.0 h=24.0 corner=None padding=None spacing=None
+          FRAME: "nav_onbording" fills=[] w=343.0 h=29.0 corner=None padding=None spacing=8.0
+        FRAME: "Container Notification onbording" fills=[] w=375.0 h=110.0 corner=None padding=16.0 spacing=8.0
+          INSTANCE: "Component_botton_onbording" fills=['SOLID #280e1b'] w=343.0 h=51.0 corner=16.0 padding=16.0 spacing=8.0
+          INSTANCE: "Component_botton_onbording" fills=[] w=343.0 h=35.0 corner=16.0 padding=16.0 spacing=4.0
+      INSTANCE: "Component Notification " fills=['SOLID #000000'] w=375.0 h=14.0 corner=None padding=16.0 spacing=10.0
+    FRAME: "onbording_02" fills=['SOLID #efe7f5'] w=375.0 h=792.0 corner=None padding=None spacing=10.0
+      INSTANCE: "Component Status bar" fills=[] w=375.0 h=32.0 corner=None padding=16.0 spacing=243.0
+        FRAME: "Time / Light" fills=[] w=32.426170349121094 h=15.0888671875 corner=20.0 padding=2.0 spacing=10.0
+          FRAME: "9:41" fills=[] w=28.42616844177246 h=11.0888671875 corner=None padding=None spacing=10.0
+        FRAME: "Status Icons" fills=[] w=69.0 h=14.0 corner=None padding=None spacing=4.0
+          FRAME: "Network Signal /┬áLight" fills=['SOLID #ffffff'] w=20.0 h=14.0 corner=None padding=None spacing=None
+          FRAME: "WiFi Signal / Light" fills=['SOLID #ffffff'] w=16.0 h=14.0 corner=None padding=None spacing=None
+          FRAME: "Battery / Light" fills=['SOLID #ffffff'] w=25.0 h=14.0 corner=None padding=None spacing=None
+            RECTANGLE: "Rectangle 20" fills=['SOLID #000000'] w=19.0 h=8.0 corner=1.0 padding=None spacing=None
+      FRAME: "Container" fills=[] w=375.0 h=746.0 corner=None padding=None spacing=128.0
+        FRAME: "Container text" fills=[] w=375.0 h=66.0 corner=None padding=16.0 spacing=None
+          INSTANCE: "Component 57" fills=['SOLID #efe7f5'] w=55.0 h=34.0 corner=12.0 padding=8.0 spacing=4.0
+            INSTANCE: "curved / globe-1" fills=[] w=18.0 h=18.0 corner=None padding=None spacing=None
+        INSTANCE: "Component_card_onbording " fills=[] w=375.0 h=342.0 corner=None padding=16.0 spacing=32.0
+          FRAME: "card_onbording_01" fills=['SOLID #ffffff'] w=343.0 h=243.0 corner=16.0 padding=16.0 spacing=32.0
+            FRAME: "Container_heading" fills=[] w=311.0 h=59.0 corner=None padding=None spacing=8.0
+            FRAME: "Container_body" fills=[] w=311.0 h=88.0 corner=None padding=None spacing=8.0
+              FRAME: "text_01" fills=[] w=311.0 h=24.0 corner=None padding=None spacing=8.0
+                FRAME: "CheckCircle" fills=['SOLID #ffffff'] w=24.0 h=24.0 corner=None padding=None spacing=None
+              FRAME: "text_02" fills=[] w=311.0 h=24.0 corner=None padding=None spacing=8.0
+                FRAME: "CheckCircle" fills=['SOLID #ffffff'] w=24.0 h=24.0 corner=None padding=None spacing=None
+              FRAME: "text_03" fills=[] w=311.0 h=24.0 corner=None padding=None spacing=8.0
+                FRAME: "CheckCircle" fills=['SOLID #ffffff'] w=24.0 h=24.0 corner=None padding=None spacing=None
+          FRAME: "nav_onbording" fills=[] w=343.0 h=29.0 corner=None padding=None spacing=8.0
+        FRAME: "Container Notification onbording" fills=[] w=375.0 h=110.0 corner=None padding=16.0 spacing=8.0
+          INSTANCE: "Component_botton_onbording" fills=['SOLID #280e1b'] w=343.0 h=51.0 corner=16.0 padding=16.0 spacing=8.0
+          INSTANCE: "Component_botton_onbording" fills=[] w=343.0 h=35.0 corner=16.0 padding=16.0 spacing=4.0
+      INSTANCE: "Component Notification " fills=['SOLID #000000'] w=375.0 h=14.0 corner=None padding=16.0 spacing=10.0
+    FRAME: "onbording_01" fills=['SOLID #efe7f5'] w=375.0 h=792.0 corner=None padding=None spacing=10.0
+      INSTANCE: "Component Status bar" fills=[] w=375.0 h=32.0 corner=None padding=16.0 spacing=243.0
+        FRAME: "Time / Light" fills=[] w=32.426170349121094 h=15.0888671875 corner=20.0 padding=2.0 spacing=10.0
+          FRAME: "9:41" fills=[] w=28.42616844177246 h=11.0888671875 corner=None padding=None spacing=10.0
+        FRAME: "Status Icons" fills=[] w=69.0 h=14.0 corner=None padding=None spacing=4.0
+          FRAME: "Network Signal /┬áLight" fills=['SOLID #ffffff'] w=20.0 h=14.0 corner=None padding=None spacing=None
+          FRAME: "WiFi Signal / Light" fills=['SOLID #ffffff'] w=16.0 h=14.0 corner=None padding=None spacing=None
+          FRAME: "Battery / Light" fills=['SOLID #ffffff'] w=25.0 h=14.0 corner=None padding=None spacing=None
+            RECTANGLE: "Rectangle 20" fills=['SOLID #000000'] w=19.0 h=8.0 corner=1.0 padding=None spacing=None
+      FRAME: "Container" fills=[] w=375.0 h=746.0 corner=None padding=None spacing=128.0
+        FRAME: "Container text" fills=[] w=375.0 h=66.0 corner=None padding=16.0 spacing=None
+          INSTANCE: "Component 57" fills=['SOLID #efe7f5'] w=55.0 h=34.0 corner=12.0 padding=8.0 spacing=4.0
+            INSTANCE: "curved / globe-1" fills=[] w=18.0 h=18.0 corner=None padding=None spacing=None
+        INSTANCE: "Component_card_onbording " fills=[] w=375.0 h=342.0 corner=None padding=16.0 spacing=32.0
+          FRAME: "card_onbording_01" fills=['SOLID #ffffff'] w=343.0 h=243.0 corner=16.0 padding=16.0 spacing=32.0
+            FRAME: "Container_heading" fills=[] w=311.0 h=59.0 corner=None padding=None spacing=8.0
+            FRAME: "Container_body" fills=[] w=311.0 h=88.0 corner=None padding=None spacing=8.0
+              FRAME: "text_01" fills=[] w=311.0 h=24.0 corner=None padding=None spacing=8.0
+                FRAME: "CheckCircle" fills=['SOLID #ffffff'] w=24.0 h=24.0 corner=None padding=None spacing=None
+              FRAME: "text_02" fills=[] w=311.0 h=24.0 corner=None padding=None spacing=8.0
+                FRAME: "CheckCircle" fills=['SOLID #ffffff'] w=24.0 h=24.0 corner=None padding=None spacing=None
+              FRAME: "text_03" fills=[] w=311.0 h=24.0 corner=None padding=None spacing=8.0
+                FRAME: "CheckCircle" fills=['SOLID #ffffff'] w=24.0 h=24.0 corner=None padding=None spacing=None
+          FRAME: "nav_onbording" fills=[] w=343.0 h=29.0 corner=None padding=None spacing=8.0
+        FRAME: "Container Notification onbording" fills=[] w=375.0 h=110.0 corner=None padding=16.0 spacing=8.0
+          INSTANCE: "Component_botton_onbording" fills=['SOLID #280e1b'] w=343.0 h=51.0 corner=16.0 padding=16.0 spacing=8.0
+          INSTANCE: "Component_botton_onbording" fills=[] w=343.0 h=35.0 corner=16.0 padding=16.0 spacing=4.0
+      INSTANCE: "Component Notification " fills=['SOLID #000000'] w=375.0 h=14.0 corner=None padding=16.0 spacing=10.0

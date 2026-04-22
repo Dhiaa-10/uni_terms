@@ -1,0 +1,35 @@
+            TEXT: "EN" | font=Pretendard Variable size=13.0 weight=600 color=#8d64aa
+              TEXT: "Ready to Start?" | font=Pretendard Variable size=16.0 weight=700 color=#000000
+              TEXT: "Choose your preferred language and start exploring academic terms today" | font=Pretendard Variable size=13.0 weight=500 color=#8d64aa
+                TEXT: "Arabic & English support" | font=Pretendard Variable size=13.0 weight=600 color=#000000
+                TEXT: "Smart search" | font=Pretendard Variable size=13.0 weight=600 color=#000000
+                TEXT: "Regular updates" | font=Pretendard Variable size=13.0 weight=600 color=#000000
+            TEXT: "Get Started" | font=Pretendard Variable size=16.0 weight=500 color=#ffffff
+            TEXT: "Previous" | font=Pretendard Variable size=16.0 weight=500 color=#280e1b
+          TEXT: "Skip" | font=Pretendard Variable size=13.0 weight=700 color=#280e1b
+            TEXT: "EN" | font=Pretendard Variable size=13.0 weight=600 color=#8d64aa
+              TEXT: "Track Your Progress" | font=Pretendard Variable size=16.0 weight=700 color=#000000
+              TEXT: "Monitor your learning journey with favorites, quizzes, and personalized content" | font=Pretendard Variable size=13.0 weight=500 color=#8d64aa
+                TEXT: "Save favorites" | font=Pretendard Variable size=13.0 weight=600 color=#000000
+                TEXT: "Take quizzes" | font=Pretendard Variable size=13.0 weight=600 color=#000000
+                TEXT: "Offline access" | font=Pretendard Variable size=13.0 weight=600 color=#000000
+            TEXT: "Next" | font=Pretendard Variable size=16.0 weight=500 color=#ffffff
+            TEXT: "Previous" | font=Pretendard Variable size=16.0 weight=500 color=#280e1b
+          TEXT: "Skip" | font=Pretendard Variable size=13.0 weight=700 color=#280e1b
+            TEXT: "EN" | font=Pretendard Variable size=13.0 weight=600 color=#8d64aa
+              TEXT: "Learn Together" | font=Pretendard Variable size=16.0 weight=700 color=#000000
+              TEXT: "Join thousands of students mastering academic vocabulary with simplified explanations" | font=Pretendard Variable size=13.0 weight=500 color=#8d64aa
+                TEXT: "Academic definitions" | font=Pretendard Variable size=13.0 weight=600 color=#000000
+                TEXT: "Simplified explanations" | font=Pretendard Variable size=13.0 weight=600 color=#000000
+                TEXT: "Real-world examples" | font=Pretendard Variable size=13.0 weight=600 color=#000000
+            TEXT: "Next" | font=Pretendard Variable size=16.0 weight=500 color=#ffffff
+            TEXT: "Previous" | font=Pretendard Variable size=16.0 weight=500 color=#280e1b
+          TEXT: "Skip" | font=Pretendard Variable size=13.0 weight=700 color=#280e1b
+            TEXT: "EN" | font=Pretendard Variable size=13.0 weight=600 color=#8d64aa
+              TEXT: "Welcom to UniTerms" | font=Pretendard Variable size=16.0 weight=700 color=#3b2950
+              TEXT: "Your ultimate academic companion for learning university terms across all majors" | font=Pretendard Variable size=13.0 weight=500 color=#8d64aa
+                TEXT: "Access 2,00+ academic terms" | font=Pretendard Variable size=13.0 weight=600 color=#3b2950
+                TEXT: "Multiple majors supported" | font=Pretendard Variable size=13.0 weight=600 color=#3b2950
+                TEXT: "Bilingual translations" | font=Pretendard Variable size=13.0 weight=600 color=#3b2950
+            TEXT: "Next" | font=Pretendard Variable size=16.0 weight=500 color=#ffffff
+            TEXT: "Previous" | font=Pretendard Variable size=16.0 weight=500 color=#280e1b

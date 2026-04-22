@@ -1,0 +1,1 @@
+import 'package:flutter/material.dart'; class ForgetPasswordResetView extends StatelessWidget { const ForgetPasswordResetView({super.key}); @override Widget build(BuildContext context) => Scaffold(body: Center(child: Text('Forget Password Reset'))); }

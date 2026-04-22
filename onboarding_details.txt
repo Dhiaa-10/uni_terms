@@ -1,0 +1,27 @@
+=== ELLIPSES (dot indicators) ===
+  Ellipse 1 fills=['#ffffff a=1.0'] w=9.0 h=9.0
+  Ellipse 2 fills=['#ffffff a=1.0'] w=9.0 h=9.0
+  Ellipse 3 fills=['#ffffff a=1.0'] w=9.0 h=9.0
+  Ellipse 4 Γ£ô fills=['#3b2950 a=1.0'] w=9.0 h=9.0
+  Ellipse 1 fills=['#ffffff a=1.0'] w=9.0 h=9.0
+  Ellipse 2 fills=['#ffffff a=1.0'] w=9.0 h=9.0
+  Ellipse 3 Γ£ô fills=['#3b2950 a=1.0'] w=9.0 h=9.0
+  Ellipse 4 fills=['#ffffff a=1.0'] w=9.0 h=9.0
+  Ellipse 1 fills=['#ffffff a=1.0'] w=9.0 h=9.0
+  Ellipse 2 Γ£ô fills=['#3b2950 a=1.0'] w=9.0 h=9.0
+  Ellipse 3 fills=['#ffffff a=1.0'] w=9.0 h=9.0
+  Ellipse 4 fills=['#ffffff a=1.0'] w=9.0 h=9.0
+  Ellipse 1 Γ£ô fills=['#3b2950 a=1.0'] w=9.0 h=9.0
+  Ellipse 2 fills=['#ffffff a=1.0'] w=9.0 h=9.0
+  Ellipse 3 fills=['#ffffff a=1.0'] w=9.0 h=9.0
+  Ellipse 4 fills=['#ffffff a=1.0'] w=9.0 h=9.0
+
+=== BUTTONS ===
+  BTN: fills=['#280e1b'] strokes=[] corner=16.0 w=343.0 h=51.0
+  BTN: fills=[] strokes=['#280e1b'] corner=16.0 w=343.0 h=35.0
+  BTN: fills=['#280e1b'] strokes=[] corner=16.0 w=343.0 h=51.0
+  BTN: fills=[] strokes=['#280e1b'] corner=16.0 w=343.0 h=35.0
+  BTN: fills=['#280e1b'] strokes=[] corner=16.0 w=343.0 h=51.0
+  BTN: fills=[] strokes=['#280e1b'] corner=16.0 w=343.0 h=35.0
+  BTN: fills=['#280e1b'] strokes=[] corner=16.0 w=343.0 h=51.0
+  BTN: fills=[] strokes=['#280e1b'] corner=16.0 w=343.0 h=35.0

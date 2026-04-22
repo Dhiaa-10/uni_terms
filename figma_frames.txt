@@ -1,0 +1,5 @@
+ID: 17:3978 | Name: Section  Splash Γ£ô
+ID: 17:4023 | Name: Section  onbording Γ£ô
+ID: 66:6298 | Name: Section  sigin in Γ£ô
+ID: 66:7906 | Name: Section  create account Γ£ô
+ID: 155:3377 | Name: Section  Forget password Γ£ô

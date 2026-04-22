@@ -1,0 +1,288 @@
+[SECTION] Section  onbording Γ£ô
+  [FRAME] onbording_04
+    [INSTANCE] Component Status bar
+      [FRAME] Time / Light
+        [FRAME] 9:41
+          [VECTOR] 9:41
+      [FRAME] Status Icons
+        [FRAME] Network Signal /┬áLight
+          [VECTOR] Path
+          [VECTOR] Path
+          [VECTOR] Path
+          [VECTOR] Empty Bar
+          [VECTOR] Path
+          [VECTOR] Path
+          [VECTOR] Path
+          [VECTOR] Empty Bar
+        [FRAME] WiFi Signal / Light
+          [VECTOR] Path
+          [VECTOR] Path
+          [VECTOR] Path
+        [FRAME] Battery / Light
+          [VECTOR] ⌠Çïª
+          [VECTOR] Subtract
+          [VECTOR] Rectangle 23
+          [GROUP] Battery
+            [VECTOR] 100
+            [VECTOR] 50
+            [VECTOR] 10
+          [VECTOR] Rectangle 21 (Stroke)
+          [RECTANGLE] Rectangle 20
+    [FRAME] Container
+      [FRAME] Container text
+        [INSTANCE] Component 57
+          [INSTANCE] curved / globe-1
+            [VECTOR] shape
+          [TEXT] EN -> "EN"
+      [INSTANCE] Component_card_onbording 
+        [FRAME] card_onbording_01
+          [FRAME] Container_heading
+            [TEXT] Ready to Start? -> "Ready to Start?"
+            [TEXT] Choose your preferred language and start exploring academic terms today -> "Choose your preferred language and start exploring academic terms today"
+          [FRAME] Container_body
+            [FRAME] text_01
+              [FRAME] CheckCircle
+                [VECTOR] Vector
+                [VECTOR] Vector
+                [VECTOR] Vector
+              [TEXT] Arabic & English support -> "Arabic & English support"
+            [FRAME] text_02
+              [FRAME] CheckCircle
+                [VECTOR] Vector
+                [VECTOR] Vector
+                [VECTOR] Vector
+              [TEXT] Smart search -> "Smart search"
+            [FRAME] text_03
+              [FRAME] CheckCircle
+                [VECTOR] Vector
+                [VECTOR] Vector
+                [VECTOR] Vector
+              [TEXT] Regular updates -> "Regular updates"
+        [FRAME] Frame 
+          [ELLIPSE] Ellipse 1
+          [ELLIPSE] Ellipse 2
+          [ELLIPSE] Ellipse 3
+          [ELLIPSE] Ellipse 4 Γ£ô
+      [FRAME] Container Notification onbording
+        [INSTANCE] Component_botton_onbording
+          [TEXT] Get Started -> "Get Started"
+        [INSTANCE] Component_botton_onbording
+          [TEXT] Previous -> "Previous"
+    [INSTANCE] Component Notification 
+      [VECTOR] Vector
+  [FRAME] onbording_03
+    [INSTANCE] Component Status bar
+      [FRAME] Time / Light
+        [FRAME] 9:41
+          [VECTOR] 9:41
+      [FRAME] Status Icons
+        [FRAME] Network Signal /┬áLight
+          [VECTOR] Path
+          [VECTOR] Path
+          [VECTOR] Path
+          [VECTOR] Empty Bar
+          [VECTOR] Path
+          [VECTOR] Path
+          [VECTOR] Path
+          [VECTOR] Empty Bar
+        [FRAME] WiFi Signal / Light
+          [VECTOR] Path
+          [VECTOR] Path
+          [VECTOR] Path
+        [FRAME] Battery / Light
+          [VECTOR] ⌠Çïª
+          [VECTOR] Subtract
+          [VECTOR] Rectangle 23
+          [GROUP] Battery
+            [VECTOR] 100
+            [VECTOR] 50
+            [VECTOR] 10
+          [VECTOR] Rectangle 21 (Stroke)
+          [RECTANGLE] Rectangle 20
+    [FRAME] Container
+      [FRAME] Container text
+        [TEXT] Skip -> "Skip"
+        [INSTANCE] Component 57
+          [INSTANCE] curved / globe-1
+            [VECTOR] shape
+          [TEXT] EN -> "EN"
+      [INSTANCE] Component_card_onbording 
+        [FRAME] card_onbording_01
+          [FRAME] Container_heading
+            [TEXT] Track Your Progress -> "Track Your Progress"
+            [TEXT] Monitor your learning journey with favorites, quizzes, and personalized content -> "Monitor your learning journey with favorites, quizzes, and personalized content"
+          [FRAME] Container_body
+            [FRAME] text_01
+              [FRAME] CheckCircle
+                [VECTOR] Vector
+                [VECTOR] Vector
+                [VECTOR] Vector
+              [TEXT] Save favorites -> "Save favorites"
+            [FRAME] text_02
+              [FRAME] CheckCircle
+                [VECTOR] Vector
+                [VECTOR] Vector
+                [VECTOR] Vector
+              [TEXT] Take quizzes -> "Take quizzes"
+            [FRAME] text_03
+              [FRAME] CheckCircle
+                [VECTOR] Vector
+                [VECTOR] Vector
+                [VECTOR] Vector
+              [TEXT] Offline access -> "Offline access"
+        [FRAME] nav_onbording
+          [ELLIPSE] Ellipse 1
+          [ELLIPSE] Ellipse 2
+          [ELLIPSE] Ellipse 3 Γ£ô
+          [ELLIPSE] Ellipse 4
+      [FRAME] Container Notification onbording
+        [INSTANCE] Component_botton_onbording
+          [TEXT] Next -> "Next"
+        [INSTANCE] Component_botton_onbording
+          [TEXT] Previous -> "Previous"
+    [INSTANCE] Component Notification 
+      [VECTOR] Vector
+  [FRAME] onbording_02
+    [INSTANCE] Component Status bar
+      [FRAME] Time / Light
+        [FRAME] 9:41
+          [VECTOR] 9:41
+      [FRAME] Status Icons
+        [FRAME] Network Signal /┬áLight
+          [VECTOR] Path
+          [VECTOR] Path
+          [VECTOR] Path
+          [VECTOR] Empty Bar
+          [VECTOR] Path
+          [VECTOR] Path
+          [VECTOR] Path
+          [VECTOR] Empty Bar
+        [FRAME] WiFi Signal / Light
+          [VECTOR] Path
+          [VECTOR] Path
+          [VECTOR] Path
+        [FRAME] Battery / Light
+          [VECTOR] ⌠Çïª
+          [VECTOR] Subtract
+          [VECTOR] Rectangle 23
+          [GROUP] Battery
+            [VECTOR] 100
+            [VECTOR] 50
+            [VECTOR] 10
+          [VECTOR] Rectangle 21 (Stroke)
+          [RECTANGLE] Rectangle 20
+    [FRAME] Container
+      [FRAME] Container text
+        [TEXT] Skip -> "Skip"
+        [INSTANCE] Component 57
+          [INSTANCE] curved / globe-1
+            [VECTOR] shape
+          [TEXT] EN -> "EN"
+      [INSTANCE] Component_card_onbording 
+        [FRAME] card_onbording_01
+          [FRAME] Container_heading
+            [TEXT] Learn Together -> "Learn Together"
+            [TEXT] Join thousands of students mastering academic vocabulary with simplified explanations -> "Join thousands of students mastering academic vocabulary with simplified explanations"
+          [FRAME] Container_body
+            [FRAME] text_01
+              [FRAME] CheckCircle
+                [VECTOR] Vector
+                [VECTOR] Vector
+                [VECTOR] Vector
+              [TEXT] Academic definitions -> "Academic definitions"
+            [FRAME] text_02
+              [FRAME] CheckCircle
+                [VECTOR] Vector
+                [VECTOR] Vector
+                [VECTOR] Vector
+              [TEXT] Simplified explanations -> "Simplified explanations"
+            [FRAME] text_03
+              [FRAME] CheckCircle
+                [VECTOR] Vector
+                [VECTOR] Vector
+                [VECTOR] Vector
+              [TEXT] Real-world examples -> "Real-world examples"
+        [FRAME] nav_onbording
+          [ELLIPSE] Ellipse 1
+          [ELLIPSE] Ellipse 2 Γ£ô
+          [ELLIPSE] Ellipse 3
+          [ELLIPSE] Ellipse 4
+      [FRAME] Container Notification onbording
+        [INSTANCE] Component_botton_onbording
+          [TEXT] Next -> "Next"
+        [INSTANCE] Component_botton_onbording
+          [TEXT] Previous -> "Previous"
+    [INSTANCE] Component Notification 
+      [VECTOR] Vector
+  [FRAME] onbording_01
+    [INSTANCE] Component Status bar
+      [FRAME] Time / Light
+        [FRAME] 9:41
+          [VECTOR] 9:41
+      [FRAME] Status Icons
+        [FRAME] Network Signal /┬áLight
+          [VECTOR] Path
+          [VECTOR] Path
+          [VECTOR] Path
+          [VECTOR] Empty Bar
+          [VECTOR] Path
+          [VECTOR] Path
+          [VECTOR] Path
+          [VECTOR] Empty Bar
+        [FRAME] WiFi Signal / Light
+          [VECTOR] Path
+          [VECTOR] Path
+          [VECTOR] Path
+        [FRAME] Battery / Light
+          [VECTOR] ⌠Çïª
+          [VECTOR] Subtract
+          [VECTOR] Rectangle 23
+          [GROUP] Battery
+            [VECTOR] 100
+            [VECTOR] 50
+            [VECTOR] 10
+          [VECTOR] Rectangle 21 (Stroke)
+          [RECTANGLE] Rectangle 20
+    [FRAME] Container
+      [FRAME] Container text
+        [TEXT] Skip -> "Skip"
+        [INSTANCE] Component 57
+          [INSTANCE] curved / globe-1
+            [VECTOR] shape
+          [TEXT] EN -> "EN"
+      [INSTANCE] Component_card_onbording 
+        [FRAME] card_onbording_01
+          [FRAME] Container_heading
+            [TEXT] Welcom to UniTerms -> "Welcom to UniTerms"
+            [TEXT] Your ultimate academic companion for learning university terms across all majors -> "Your ultimate academic companion for learning university terms across all majors"
+          [FRAME] Container_body
+            [FRAME] text_01
+              [FRAME] CheckCircle
+                [VECTOR] Vector
+                [VECTOR] Vector
+                [VECTOR] Vector
+              [TEXT] Access 2,00+ academic terms -> "Access 2,00+ academic terms"
+            [FRAME] text_02
+              [FRAME] CheckCircle
+                [VECTOR] Vector
+                [VECTOR] Vector
+                [VECTOR] Vector
+              [TEXT] Multiple majors supported -> "Multiple majors supported"
+            [FRAME] text_03
+              [FRAME] CheckCircle
+                [VECTOR] Vector
+                [VECTOR] Vector
+                [VECTOR] Vector
+              [TEXT] Bilingual translations -> "Bilingual translations"
+        [FRAME] nav_onbording
+          [ELLIPSE] Ellipse 1 Γ£ô
+          [ELLIPSE] Ellipse 2
+          [ELLIPSE] Ellipse 3
+          [ELLIPSE] Ellipse 4
+      [FRAME] Container Notification onbording
+        [INSTANCE] Component_botton_onbording
+          [TEXT] Next -> "Next"
+        [INSTANCE] Component_botton_onbording
+          [TEXT] Previous -> "Previous"
+    [INSTANCE] Component Notification 
+      [VECTOR] Vector

@@ -1,0 +1,1 @@
+import 'package:flutter/material.dart'; class ForgetPasswordEmailView extends StatelessWidget { const ForgetPasswordEmailView({super.key}); @override Widget build(BuildContext context) => Scaffold(body: Center(child: Text('Forget Password Email'))); }

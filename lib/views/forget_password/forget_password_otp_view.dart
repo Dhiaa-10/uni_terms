@@ -1,0 +1,1 @@
+import 'package:flutter/material.dart'; class ForgetPasswordOtpView extends StatelessWidget { const ForgetPasswordOtpView({super.key}); @override Widget build(BuildContext context) => Scaffold(body: Center(child: Text('Forget Password OTP'))); }

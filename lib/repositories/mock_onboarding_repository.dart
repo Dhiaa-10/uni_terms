@@ -1,0 +1,1 @@
+import 'i_onboarding_repository.dart'; class MockOnboardingRepository implements IOnboardingRepository { @override Future<bool> isOnboardingCompleted() async => true; @override Future<void> completeOnboarding() async {} }
