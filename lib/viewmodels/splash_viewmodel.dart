@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import '../repositories/i_splash_repository.dart';
 import '../repositories/i_onboarding_repository.dart';
 import '../repositories/i_auth_repository.dart';
@@ -20,8 +21,14 @@ class SplashViewModel extends GetxController {
     // Wait for 3 seconds
     await Future.delayed(const Duration(seconds: 3));
     
-    // For now, always go to home as per user request
-    // In a real app, we'd check onboarding/auth state here
-    Get.offAllNamed('/home');
+    FlutterNativeSplash.remove();
+    
+    bool hasSeenOnboarding = await _onboardingRepo.isOnboardingCompleted();
+    
+    if (hasSeenOnboarding) {
+      Get.offAllNamed('/sign_in');
+    } else {
+      Get.offAllNamed('/onboarding');
+    }
   }
 }

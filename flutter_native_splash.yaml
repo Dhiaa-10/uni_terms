@@ -1,10 +1,12 @@
 flutter_native_splash:
   color: "#EFE7F5"
-  image: "assets/icons/logo_group.png"
+  # image: "assets/icons/logo_group_high_512h.png"
   android: true
   ios: true
   fullscreen: true
 
   android_12:
     color: "#EFE7F5"
-    image: "assets/icons/logo_group.png"
+    # image: "assets/icons/logo_group_high_512h.png"
+    # يمكنك إضافة branding إذا أردت شعاراً في الأسفل
+    # branding: "assets/icons/logo_group.svg" 
