@@ -63,9 +63,9 @@ lib/
 
 | Onboarding | Home Screen | Term Details |
 | :---: | :---: | :---: |
-| <img src="assets/screenshots/onboarding_screen.png" width="250"> | <img src="assets/screenshots/home_screen.png" width="250"> | <img src="assets/screenshots/term_details.png" width="250"> |
+| ![Onboarding](assets/screenshots/onboarding_screen.png) | ![Home Screen](assets/screenshots/home_screen.png) | ![Term Details](assets/screenshots/term_details.png) |
 | **Quiz Interface** | **Favorites** | **Coming Soon...** |
-| <img src="assets/screenshots/quiz_screen.png" width="250"> | <img src="assets/screenshots/favorites_screen.png" width="250"> | <img src="https://via.placeholder.com/250x500?text=More+to+Come" width="250"> |
+| ![Quiz](assets/screenshots/quiz_screen.png) | ![Favorites](assets/screenshots/favorites_screen.png) | ![More](https://via.placeholder.com/250x500?text=More+to+Come) |
 
 ## 🤝 Contributing
 Contributions, issues, and feature requests are welcome!
