@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import '../repositories/i_auth_repository.dart';
 
 class SettingsViewModel extends GetxController {
   final _storage = GetStorage();
@@ -104,8 +105,9 @@ class SettingsViewModel extends GetxController {
     );
   }
 
-  void logout() {
-    // Basic logout logic
+  void logout() async {
+    final authRepo = Get.find<IAuthRepository>();
+    await authRepo.logout();
     Get.offAllNamed('/sign_in');
   }
 }

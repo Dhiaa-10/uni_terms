@@ -25,7 +25,9 @@ class SplashViewModel extends GetxController {
     
     bool hasSeenOnboarding = await _onboardingRepo.isOnboardingCompleted();
     
-    if (hasSeenOnboarding) {
+    if (_authRepo.isAuthenticated()) {
+      Get.offAllNamed('/home');
+    } else if (hasSeenOnboarding) {
       Get.offAllNamed('/sign_in');
     } else {
       Get.offAllNamed('/onboarding');
