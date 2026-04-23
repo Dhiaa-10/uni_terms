@@ -60,30 +60,13 @@ lib/
 
 ## 📱 Screenshots
 
-<div align="center">
-  <table>
-    <tr>
-      <td align="center"><b>Onboarding</b></td>
-      <td align="center"><b>Home Screen</b></td>
-      <td align="center"><b>Term Details</b></td>
-    </tr>
-    <tr>
-      <td><img src="assets/screenshots/onboarding_screen.png" width="250"></td>
-      <td><img src="assets/screenshots/home_screen.png" width="250"></td>
-      <td><img src="assets/screenshots/term_details.png" width="250"></td>
-    </tr>
-    <tr>
-      <td align="center"><b>Quiz Interface</b></td>
-      <td align="center"><b>Favorites</b></td>
-      <td align="center"><b>Coming Soon...</b></td>
-    </tr>
-    <tr>
-      <td><img src="assets/screenshots/quiz_screen.png" width="250"></td>
-      <td><img src="assets/screenshots/favorites_screen.png" width="250"></td>
-      <td><img src="https://via.placeholder.com/250x500?text=More+to+Come" width="250"></td>
-    </tr>
-  </table>
-</div>
+| Onboarding | Home Screen | Term Details |
+| :---: | :---: | :---: |
+| ![Onboarding](assets/screenshots/onboarding_screen.png) | ![Home](assets/screenshots/home_screen.png) | ![Details](assets/screenshots/term_details.png) |
+
+| Quiz Interface | Favorites | Settings |
+| :---: | :---: | :---: |
+| ![Quiz](assets/screenshots/quiz_screen.png) | ![Favorites](assets/screenshots/favorites_screen.png) | ![Settings](assets/screenshots/settings_screen.png) |
 
 ## 🤝 Contributing
 Contributions, issues, and feature requests are welcome!
