@@ -18,18 +18,19 @@ class SplashViewModel extends GetxController {
   }
 
   void _startNavigationTimer() async {
-    // Wait for 3 seconds
-    await Future.delayed(const Duration(seconds: 3));
+    // Show the native blank splash for a short time (1 second)
+    await Future.delayed(const Duration(seconds: 1));
     
+    // Remove the native splash to reveal the Flutter SplashView
     FlutterNativeSplash.remove();
     
-    bool hasSeenOnboarding = await _onboardingRepo.isOnboardingCompleted();
+    // Keep the Flutter SplashView (with icon and name) visible for 3 seconds
+    await Future.delayed(const Duration(seconds: 3));
     
     if (_authRepo.isAuthenticated()) {
       Get.offAllNamed('/home');
-    } else if (hasSeenOnboarding) {
-      Get.offAllNamed('/sign_in');
     } else {
+      // Always show onboarding if not authenticated, as per user request
       Get.offAllNamed('/onboarding');
     }
   }

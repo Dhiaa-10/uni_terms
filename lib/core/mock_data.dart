@@ -261,22 +261,22 @@ class MockData {
     {
       'title': 'Medicine',
       'arabicTitle': 'الطب',
-      'icon': Icons.medical_services_outlined,
+      'icon': 'assets/icons/medicine.svg',
     },
     {
       'title': 'Engineering',
       'arabicTitle': 'الهندسة',
-      'icon': Icons.architecture_outlined,
+      'icon': 'assets/icons/engineering.svg',
     },
     {
       'title': 'Computer',
       'arabicTitle': 'الحاسب',
-      'icon': Icons.laptop_mac_outlined,
+      'icon': 'assets/icons/computer.svg',
     },
     {
       'title': 'Management',
       'arabicTitle': 'الإدارة',
-      'icon': Icons.analytics_outlined,
+      'icon': 'assets/icons/management.svg',
     },
     {
       'title': 'Law',
