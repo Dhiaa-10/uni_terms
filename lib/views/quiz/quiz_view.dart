@@ -554,7 +554,16 @@ class QuizView extends StatelessWidget {
                   color: const Color(0xFF5A406D), // Dark purple background
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(major['icon'], color: Colors.white, size: 24), // White icon
+                child: Center(
+                  child: major['icon'] is String
+                      ? SvgPicture.asset(
+                          major['icon'] as String,
+                          width: 26,
+                          height: 26,
+                          colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                        )
+                      : Icon(major['icon'] as IconData, color: Colors.white, size: 26),
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(

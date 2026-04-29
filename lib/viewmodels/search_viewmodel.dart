@@ -101,6 +101,48 @@ class SearchViewModel extends GetxController {
   }
 
   // ─────────────────────────────────────────────────────────────────────────────
+  // Cross-keyboard layout mapping (Windows Arabic 101 ↔ QWERTY)
+  // ─────────────────────────────────────────────────────────────────────────────
+  /// Maps each QWERTY key to its corresponding Arabic character in the
+  /// standard Windows Arabic (101) keyboard layout.
+  static const Map<String, String> _englishToArabic = {
+    'q': 'ض', 'w': 'ص', 'e': 'ث', 'r': 'ق', 't': 'ف',
+    'y': 'غ', 'u': 'ع', 'i': 'ه', 'o': 'خ', 'p': 'ح',
+    'a': 'ش', 's': 'س', 'd': 'ي', 'f': 'ب', 'g': 'ل',
+    'h': 'ا', 'j': 'ت', 'k': 'ن', 'l': 'م',
+    'z': 'ئ', 'x': 'ء', 'c': 'ؤ', 'v': 'ر', 'b': 'لا',
+    'n': 'ى', 'm': 'ة', ',': 'و', '.': 'ز', ';': 'ك',
+  };
+
+  /// The reverse map: Arabic character → its QWERTY key position.
+  static final Map<String, String> _arabicToEnglish = {
+    for (final entry in _englishToArabic.entries) entry.value: entry.key,
+  };
+
+  /// Converts [text] by swapping each character according to the opposite
+  /// keyboard layout.  If the text is mostly Latin it tries Arabic→English;
+  /// if it is mostly Arabic it tries English→Arabic.  Characters with no
+  /// mapping are kept as-is.
+  String _swapKeyboardLayout(String text) {
+    if (text.isEmpty) return text;
+
+    // Detect dominant script by counting mapped characters.
+    int latinCount = 0;
+    int arabicCount = 0;
+    for (final ch in text.characters) {
+      if (_englishToArabic.containsKey(ch)) latinCount++;
+      if (_arabicToEnglish.containsKey(ch)) arabicCount++;
+    }
+
+    final map = latinCount >= arabicCount ? _englishToArabic : _arabicToEnglish;
+    final buffer = StringBuffer();
+    for (final ch in text.characters) {
+      buffer.write(map[ch] ?? ch);
+    }
+    return buffer.toString();
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────────
   // Main search logic
   // ─────────────────────────────────────────────────────────────────────────────
 
@@ -146,10 +188,16 @@ class SearchViewModel extends GetxController {
       final arTitle = _normaliseArabic(term.arabicTranslation.toLowerCase());
 
       // Each query token must match at least one of the text surfaces.
+      // We also try the layout-swapped version to support users who forgot
+      // to switch their keyboard language (e.g. typing Arabic layout on
+      // an English term, or vice versa).
       for (final token in queryTokens) {
         final normToken = _normaliseArabic(token); // harmless for English
-        final enScore = _scoreToken(token, enTitle);
-        final arScore = _scoreToken(normToken, arTitle);
+        final swappedToken = _swapKeyboardLayout(token);
+        final normSwapped = _normaliseArabic(swappedToken);
+
+        final enScore  = min(_scoreToken(token,        enTitle), _scoreToken(swappedToken,  enTitle));
+        final arScore  = min(_scoreToken(normToken,    arTitle), _scoreToken(normSwapped,   arTitle));
         final bestScore = min(enScore, arScore);
 
         if (bestScore == 999) { return false; } // this token didn't match → reject term
@@ -158,8 +206,13 @@ class SearchViewModel extends GetxController {
       // All tokens matched → compute overall relevance score for sorting.
       int totalScore = 0;
       for (final token in queryTokens) {
-        final normToken = _normaliseArabic(token);
-        totalScore += min(_scoreToken(token, enTitle), _scoreToken(normToken, arTitle));
+        final normToken    = _normaliseArabic(token);
+        final swappedToken = _swapKeyboardLayout(token);
+        final normSwapped  = _normaliseArabic(swappedToken);
+
+        final enScore = min(_scoreToken(token,     enTitle), _scoreToken(swappedToken, enTitle));
+        final arScore = min(_scoreToken(normToken, arTitle), _scoreToken(normSwapped,  arTitle));
+        totalScore += min(enScore, arScore);
       }
       scores[term.id] = totalScore;
       return true;

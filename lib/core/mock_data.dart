@@ -190,61 +190,6 @@ class MockData {
       category: 'Management',
     ),
 
-    // --- Law ---
-    TermModel(
-      id: 'l1',
-      title: 'Litigation',
-      arabicTranslation: 'التقاضي',
-      definition: 'The process of taking legal action.',
-      arabicDefinition: 'عملية اتخاذ إجراء قانوني.',
-      category: 'Law',
-      isNew: true,
-    ),
-    TermModel(
-      id: 'l2',
-      title: 'Jurisdiction',
-      arabicTranslation: 'الاختصاص القضائي',
-      definition: 'The official power to make legal decisions and judgments.',
-      arabicDefinition: 'السلطة الرسمية لاتخاذ القرارات والأحكام القانونية.',
-      category: 'Law',
-      isPopular: true,
-    ),
-    TermModel(
-      id: 'l3',
-      title: 'Affidavit',
-      arabicTranslation: 'إفادة مشفوعة بقسم',
-      definition: 'A written statement confirmed by oath or affirmation.',
-      arabicDefinition: 'بيان مكتوب مؤكد بالقسم أو الإقرار.',
-      category: 'Law',
-    ),
-
-    // --- Accounting ---
-    TermModel(
-      id: 'a1',
-      title: 'Ledger',
-      arabicTranslation: 'دفتر الأستاذ',
-      definition: 'A book or other collection of financial accounts.',
-      arabicDefinition: 'كتاب أو مجموعة أخرى من الحسابات المالية.',
-      category: 'Accounting',
-      isNew: true,
-    ),
-    TermModel(
-      id: 'a2',
-      title: 'Audit',
-      arabicTranslation: 'تدقيق الحسابات',
-      definition: 'An official inspection of an individual\'s or organization\'s accounts.',
-      arabicDefinition: 'تفتيش رسمي لحسابات فرد أو منظمة.',
-      category: 'Accounting',
-      isPopular: true,
-    ),
-    TermModel(
-      id: 'a3',
-      title: 'Depreciation',
-      arabicTranslation: 'الاستهلاك',
-      definition: 'A reduction in the value of an asset with the passage of time.',
-      arabicDefinition: 'نقص في قيمة الأصل مع مرور الوقت.',
-      category: 'Accounting',
-    ),
   ];
 
   static List<Map<String, dynamic>> get majors {
@@ -277,16 +222,6 @@ class MockData {
       'title': 'Management',
       'arabicTitle': 'الإدارة',
       'icon': 'assets/icons/management.svg',
-    },
-    {
-      'title': 'Law',
-      'arabicTitle': 'القانون',
-      'icon': Icons.account_balance_outlined,
-    },
-    {
-      'title': 'Accounting',
-      'arabicTitle': 'المحاسبة',
-      'icon': Icons.calculate_outlined,
     },
   ];
 }
