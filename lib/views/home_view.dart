@@ -14,7 +14,7 @@ class HomeView extends StatelessWidget {
   const HomeView({super.key});
   @override
   Widget build(BuildContext context) {
-    final HomeViewModel controller = Get.put(HomeViewModel());
+    final HomeViewModel controller = Get.find<HomeViewModel>();
 
     return Scaffold(
       backgroundColor: AppColors.screenBg,
@@ -60,11 +60,11 @@ class HomeView extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
                 _buildSectionContainer(
-                  child: _buildTrendingSection(context),
+                  child: _buildTrendingSection(context, controller),
                 ),
                 const SizedBox(height: 24),
                 _buildSectionContainer(
-                  child: _buildLatestTermsSection(context),
+                  child: _buildLatestTermsSection(context, controller),
                 ),
                 const SizedBox(height: 80),
               ],
@@ -256,11 +256,12 @@ class HomeView extends StatelessWidget {
             ),
             itemBuilder: (context, index) {
               final major = majors[index];
+              final isArabic = Get.locale?.languageCode == 'ar';
               return MajorCard(
-                title: major['title']!,
+                title: isArabic ? (major['arabicTitle'] ?? major['title']) : major['title'],
                 termsCount: major['count']!,
                 icon: major['icon'],
-                onTap: () => controller.showMajorTerms(major['title']!),
+                onTap: () => controller.showMajorTerms(major),
               );
             },
           );
@@ -269,8 +270,7 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget _buildTrendingSection(BuildContext context) {
-    final trendingTerms = MockData.terms.where((t) => t.isPopular).take(3).toList();
+  Widget _buildTrendingSection(BuildContext context, HomeViewModel controller) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -298,21 +298,34 @@ class HomeView extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
-        ...trendingTerms.asMap().entries.map((entry) => TermListTile(
-          index: entry.key + 1,
-          term: entry.value.title,
-          category: entry.value.category,
-          isNew: entry.value.isNew,
-          onTap: () => Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => TermDetailsView(term: entry.value)),
-          ),
-        )),
+        Obx(() {
+          if (controller.isLoadingLatest.value) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          final trendingTerms = controller.popularTerms;
+          if (trendingTerms.isEmpty) {
+            return Text('no_results'.tr, style: const TextStyle(color: Colors.grey));
+          }
+          return Column(
+            children: trendingTerms.asMap().entries.map((entry) => TermListTile(
+              index: entry.key + 1,
+              term: entry.value.title,
+              category: controller.getTermCategory(entry.value),
+              isNew: entry.value.isNew && !controller.viewedNewTerms.contains(entry.value.id),
+              onTap: () {
+                controller.markTermAsViewed(entry.value.id);
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => TermDetailsView(term: entry.value)),
+                );
+              },
+            )).toList(),
+          );
+        }),
       ],
     );
   }
 
-  Widget _buildLatestTermsSection(BuildContext context) {
-    final latestTerms = MockData.terms.where((t) => t.isNew).take(2).toList();
+  Widget _buildLatestTermsSection(BuildContext context, HomeViewModel controller) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -340,15 +353,29 @@ class HomeView extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
-        ...latestTerms.asMap().entries.map((entry) => TermListTile(
-          index: entry.key + 1,
-          term: entry.value.title,
-          category: entry.value.category,
-          isNew: entry.value.isNew,
-          onTap: () => Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => TermDetailsView(term: entry.value)),
-          ),
-        )),
+        Obx(() {
+          if (controller.isLoadingLatest.value) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          final latestTerms = controller.latestTerms.take(5).toList();
+          if (latestTerms.isEmpty) {
+            return Text('no_results'.tr, style: const TextStyle(color: Colors.grey));
+          }
+          return Column(
+            children: latestTerms.asMap().entries.map((entry) => TermListTile(
+              index: entry.key + 1,
+              term: entry.value.title,
+              category: controller.getTermCategory(entry.value),
+              isNew: entry.value.isNew && !controller.viewedNewTerms.contains(entry.value.id),
+              onTap: () {
+                controller.markTermAsViewed(entry.value.id);
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => TermDetailsView(term: entry.value)),
+                );
+              },
+            )).toList(),
+          );
+        }),
       ],
     );
   }
@@ -404,15 +431,23 @@ class HomeView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Text(
-                      'terms'.tr,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                        fontFamily: 'Inter',
-                      ),
-                    ),
+                    Obx(() {
+                      final specId = controller.selectedSpecId.value;
+                      String title = 'terms'.tr;
+                      if (specId != null) {
+                        title = controller.specIdToName[specId] ?? controller.selectedMajorTitle.value;
+                      }
+                      
+                      return Text(
+                        title,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                          fontFamily: 'Inter',
+                        ),
+                      );
+                    }),
                   ],
                 ),
                 const SizedBox(height: 24),
@@ -446,20 +481,28 @@ class HomeView extends StatelessWidget {
                   const SizedBox(height: 20),
                   // Scrollable List
                   Expanded(
-                    child: Obx(() => ListView.builder(
-                      padding: EdgeInsets.zero,
-                      itemCount: controller.filteredTerms.length,
-                      itemBuilder: (context, index) {
-                        final term = controller.filteredTerms[index];
-                        return SimpleTermTile(
-                          index: index + 1,
-                          term: term,
-                          onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute(builder: (_) => TermDetailsView(term: term)),
-                          ),
-                        );
-                      },
-                    )),
+                    child: Obx(() {
+                      if (controller.isLoadingTerms.value) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      if (controller.filteredTerms.isEmpty) {
+                        return Center(child: Text('no_results'.tr));
+                      }
+                      return ListView.builder(
+                        padding: EdgeInsets.zero,
+                        itemCount: controller.filteredTerms.length,
+                        itemBuilder: (context, index) {
+                          final term = controller.filteredTerms[index];
+                          return SimpleTermTile(
+                            index: index + 1,
+                            term: term,
+                            onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(builder: (_) => TermDetailsView(term: term)),
+                            ),
+                          );
+                        },
+                      );
+                    }),
                   ),
                 ],
               ),
@@ -662,12 +705,14 @@ class HomeView extends StatelessWidget {
               itemCount: list.length,
               itemBuilder: (context, index) {
                 final major = list[index];
+                final isArabic = Get.locale?.languageCode == 'ar';
+                final majorTitle = isArabic ? (major['arabicTitle'] ?? major['title']) : major['title'];
                 return Obx(() => HorizontalMajorCard(
-                  title: major['title']!,
+                  title: majorTitle,
                   termsCount: major['count']!,
                   icon: major['icon'],
                   isPinned: controller.isPinned(major['title']!),
-                  onTap: () => controller.showMajorTerms(major['title']!),
+                  onTap: () => controller.showMajorTerms(major),
                   onPinTap: () => controller.togglePin(major['title']!),
                 ));
               },

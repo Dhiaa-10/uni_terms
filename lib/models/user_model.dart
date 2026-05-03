@@ -1,31 +1,33 @@
 class UserModel {
-  final String id;
-  final String name;
+  final int id;
+  final String firstName;
+  final String lastName;
   final String email;
-  final String? profilePic;
 
   UserModel({
     required this.id,
-    required this.name,
+    required this.firstName,
+    required this.lastName,
     required this.email,
-    this.profilePic,
   });
+
+  String get fullName => '$firstName $lastName';
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: json['id'],
-      name: json['name'],
-      email: json['email'],
-      profilePic: json['profilePic'],
+      id: json['id'] is int ? json['id'] : int.tryParse(json['id'].toString()) ?? 0,
+      firstName: json['first_name'] ?? '',
+      lastName: json['last_name'] ?? '',
+      email: json['email'] ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'name': name,
+      'first_name': firstName,
+      'last_name': lastName,
       'email': email,
-      'profilePic': profilePic,
     };
   }
 }

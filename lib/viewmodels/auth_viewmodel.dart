@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:uniterm/repositories/i_auth_repository.dart';
+import '../repositories/api_auth_repository.dart';
+import '../repositories/i_auth_repository.dart';
 
 class AuthViewModel extends GetxController {
   final IAuthRepository authRepo;
   AuthViewModel(this.authRepo);
 
-  final emailController = TextEditingController();
+  final emailController    = TextEditingController();
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-  var isLoading = false.obs;
-  var isPasswordVisible = false.obs;
+  var isLoading           = false.obs;
+  var isPasswordVisible   = false.obs;
+  var errorMessage        = ''.obs;
+
+  // ─── Validation ────────────────────────────────────────────────────────────
 
   String? validateEmail(String? value) {
     if (value == null || value.isEmpty) return 'email_required'.tr;
@@ -29,6 +33,43 @@ class AuthViewModel extends GetxController {
     isPasswordVisible.value = !isPasswordVisible.value;
   }
 
+  // ─── Sign In ───────────────────────────────────────────────────────────────
+
+  Future<void> login() async {
+    if (!formKey.currentState!.validate()) return;
+    errorMessage.value = '';
+    isLoading.value = true;
+
+    // Use ApiAuthRepository extended method when available
+    if (authRepo is ApiAuthRepository) {
+      final (success, msg) = await (authRepo as ApiAuthRepository)
+          .signInWithMessage(emailController.text.trim(), passwordController.text);
+      isLoading.value = false;
+      if (success) {
+        Get.offAllNamed('/home');
+      } else {
+        errorMessage.value = msg.isNotEmpty ? msg : 'invalid_credentials'.tr;
+        Get.snackbar(
+          'error'.tr,
+          errorMessage.value,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
+    } else {
+      // Fallback for mock repo
+      final success = await authRepo.signIn(
+          emailController.text.trim(), passwordController.text);
+      isLoading.value = false;
+      if (success) {
+        Get.offAllNamed('/home');
+      } else {
+        Get.snackbar('error'.tr, 'invalid_credentials'.tr,
+            snackPosition: SnackPosition.BOTTOM);
+      }
+    }
+  }
+
+  // Keep old signIn method signature for compatibility
   Future<void> signIn(String email, String password) async {
     isLoading.value = true;
     final success = await authRepo.signIn(email, password);
@@ -36,11 +77,14 @@ class AuthViewModel extends GetxController {
     if (success) {
       Get.offAllNamed('/home');
     } else {
-      Get.snackbar('Error', 'Invalid credentials');
+      Get.snackbar('error'.tr, 'invalid_credentials'.tr,
+          snackPosition: SnackPosition.BOTTOM);
     }
   }
 
-  Future<void> login() async {
-    await signIn(emailController.text, passwordController.text);
+  @override
+  void onClose() {
+    // TextEditingControllers are handled by the system during transitions
+    super.onClose();
   }
 }

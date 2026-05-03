@@ -64,22 +64,22 @@ class TermListTile extends StatelessWidget {
                       color: AppColors.titleColor,
                     ),
                   ),
-                  const SizedBox(height: 6),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF3EDF7),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(
-                      category,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.subtitleColor,
+                  if (category.isNotEmpty)
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF3EDF7),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text(
+                        category,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.subtitleColor,
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ),

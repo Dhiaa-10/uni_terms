@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../../../models/term_model.dart';
 import '../../../../core/app_colors.dart';
 
@@ -41,7 +42,7 @@ class SimpleTermTile extends StatelessWidget {
                 ),
               ),
             ),
-            // Term Title
+            // Term Title and Category Tag (right-aligned for RTL feel)
             Expanded(
               child: Text(
                 term.title,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../repositories/api_auth_repository.dart';
 import '../repositories/i_auth_repository.dart';
 
 class RegisterViewModel extends GetxController {
@@ -7,13 +8,16 @@ class RegisterViewModel extends GetxController {
   RegisterViewModel(this.authRepo);
 
   final firstNameController = TextEditingController();
-  final lastNameController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final lastNameController  = TextEditingController();
+  final emailController     = TextEditingController();
+  final passwordController  = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-  var isLoading = false.obs;
+  var isLoading         = false.obs;
   var isPasswordVisible = false.obs;
+  var errorMessage      = ''.obs;
+
+  // ─── Validation ────────────────────────────────────────────────────────────
 
   String? validateName(String? value) {
     if (value == null || value.trim().isEmpty) return 'required_field'.tr;
@@ -21,14 +25,14 @@ class RegisterViewModel extends GetxController {
   }
 
   String? validateEmail(String? value) {
-    if (value == null || value.isEmpty) return 'email_required'.tr; // Using existing keys if possible or fallback
+    if (value == null || value.isEmpty) return 'email_required'.tr;
     if (!GetUtils.isEmail(value)) return 'invalid_email'.tr;
     return null;
   }
 
   String? validatePassword(String? value) {
     if (value == null || value.isEmpty) return 'password_required'.tr;
-    if (value.length < 6) return 'password_too_short'.tr;
+    if (value.length < 8) return 'password_too_short'.tr;
     return null;
   }
 
@@ -36,27 +40,47 @@ class RegisterViewModel extends GetxController {
     isPasswordVisible.value = !isPasswordVisible.value;
   }
 
+  // ─── Register ──────────────────────────────────────────────────────────────
+
   Future<void> register() async {
     if (!formKey.currentState!.validate()) return;
-    
+    errorMessage.value = '';
     isLoading.value = true;
-    // Call repository register method here when available, for now simulate
-    await Future.delayed(const Duration(seconds: 1));
+
+    bool success = false;
+
+    if (authRepo is ApiAuthRepository) {
+      success = await (authRepo as ApiAuthRepository).registerWithNames(
+        firstName: firstNameController.text.trim(),
+        lastName: lastNameController.text.trim(),
+        email: emailController.text.trim(),
+        password: passwordController.text,
+      );
+    } else {
+      // Fallback
+      final fullName =
+          '${firstNameController.text.trim()} ${lastNameController.text.trim()}';
+      success = await authRepo.register(
+          fullName, emailController.text.trim(), passwordController.text);
+    }
+
     isLoading.value = false;
-    
-    // For now, since register isn't fully defined in IAuthRepository we can just show a success message or go to login.
-    // Assuming authRepo has or will have register.
-    // bool success = await authRepo.register(firstNameController.text, lastNameController.text, emailController.text, passwordController.text);
-    Get.snackbar('Success', 'Account created successfully');
-    Get.offAllNamed('/sign-in');
+
+    if (success) {
+      Get.offAllNamed('/home');
+    } else {
+      errorMessage.value = 'register_failed'.tr;
+      Get.snackbar(
+        'error'.tr,
+        errorMessage.value,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
   }
 
   @override
   void onClose() {
-    firstNameController.dispose();
-    lastNameController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
+    // TextEditingControllers are handled by the system during transitions
     super.onClose();
   }
 }

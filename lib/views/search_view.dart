@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../core/app_colors.dart';
 import '../viewmodels/search_viewmodel.dart';
+import '../viewmodels/home_viewmodel.dart';
 import 'terms/term_details_view.dart';
 
 class SearchView extends StatelessWidget {
@@ -256,22 +257,34 @@ class SearchView extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               // Categories Grid
-              Obx(() => Wrap(
-                spacing: 12,
-                runSpacing: 12,
-                children: controller.categories.map((cat) {
-                  final isSelected = controller.selectedCategories.contains(cat);
-                  return SizedBox(
-                    width: (MediaQuery.of(context).size.width - 60) / 2,
-                    child: _buildFilterChip(
-                      label: cat,
-                      isSelected: isSelected,
-                      onTap: () => controller.toggleCategory(cat),
-                      activeColor: const Color(0xFF614A81),
-                    ),
-                  );
-                }).toList(),
-              )),
+              Obx(() {
+                final homeVm = Get.find<HomeViewModel>();
+                final majors = homeVm.specs.map((s) => Get.locale?.languageCode == 'ar' ? s.nameAr : s.name).toList();
+                
+                return Wrap(
+                  spacing: 12,
+                  runSpacing: 12,
+                  children: majors.map((cat) {
+                    final isSelected = controller.selectedCategories.contains(cat);
+                    return SizedBox(
+                      width: (MediaQuery.of(context).size.width - 60) / 2,
+                      child: _buildFilterChip(
+                        label: cat,
+                        isSelected: isSelected,
+                        onTap: () {
+                          // Find the spec ID and set it if we want server-side filtering by spec
+                          final spec = homeVm.specs.firstWhereOrNull((s) => (Get.locale?.languageCode == 'ar' ? s.nameAr : s.name) == cat);
+                          if (spec != null) {
+                             controller.setSpecId(isSelected ? null : spec.id);
+                          }
+                          controller.toggleCategory(cat);
+                        },
+                        activeColor: const Color(0xFF614A81),
+                      ),
+                    );
+                  }).toList(),
+                );
+              }),
               const SizedBox(height: 32),
             ],
           ),
@@ -431,21 +444,39 @@ class SearchView extends StatelessWidget {
                         Expanded(
                           child: _getHighlightedText(term.title, query),
                         ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF3EDF7),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Text(
-                            term.category,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF8D64AA),
+                        if (term.isNew)
+                          Container(
+                            margin: const EdgeInsets.only(right: 8),
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF27C840),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: const Text(
+                              'New',
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
-                        ),
+                        if (term.category.isNotEmpty)
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF3EDF7),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              term.category,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF8D64AA),
+                              ),
+                            ),
+                          ),
                         const SizedBox(width: 12),
                         const Icon(Icons.north_east_rounded, size: 20, color: Color(0xFFB0A4C0)),
                       ],

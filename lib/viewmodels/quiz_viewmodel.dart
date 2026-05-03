@@ -1,38 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import '../core/mock_data.dart';
+import '../models/spec_model.dart';
+import '../models/quiz_level_model.dart';
+import '../models/quiz_question_model.dart';
+import '../repositories/i_quiz_repository.dart';
+import '../repositories/i_content_repository.dart';
 import 'main_viewmodel.dart';
 
 enum QuizViewType { majors, levels, questions, results }
 
-class QuizQuestion {
-  final String question;
-  final List<String> options;
-  final int correctAnswerIndex;
-
-  QuizQuestion({
-    required this.question,
-    required this.options,
-    required this.correctAnswerIndex,
-  });
-}
-
 class QuizViewModel extends GetxController {
+  final IQuizRepository quizRepo;
+  final IContentRepository contentRepo;
+  QuizViewModel(this.quizRepo, this.contentRepo);
+
   final _storage = GetStorage();
-  
+
+  // ─── View state ────────────────────────────────────────────────────────────
   var currentView = QuizViewType.majors.obs;
   var searchQuery = ''.obs;
-  var selectedMajor = Rxn<Map<String, dynamic>>();
-  var selectedLevel = 0.obs;
-  
-  // Quiz Session State
+
+  // ─── Specs (majors) ────────────────────────────────────────────────────────
+  var specs        = <SpecModel>[].obs;
+  var isLoadingSpecs = false.obs;
+
+  // ─── Levels ────────────────────────────────────────────────────────────────
+  var levels        = <QuizLevelModel>[].obs;
+  var isLoadingLevels = false.obs;
+  var selectedSpec  = Rxn<SpecModel>();
+
+  // ─── Questions ─────────────────────────────────────────────────────────────
+  var questions       = <QuizQuestionModel>[].obs;
+  var isLoadingQuestions = false.obs;
+  var selectedLevel   = Rxn<QuizLevelModel>();
+
+  // ─── Quiz session state ────────────────────────────────────────────────────
   var currentQuestionIndex = 0.obs;
-  var selectedOptionIndex = (-1).obs;
-  var isAnswered = false.obs;
-  var quizQuestions = <QuizQuestion>[].obs;
-  var correctAnswersCount = 0.obs;
-  var totalTrophies = 0.obs;
+  var selectedOptionId     = Rxn<int>();   // the chosen option's id
+  var isAnswered           = false.obs;
+  var isCorrect            = false.obs;
+  var correctOptionId      = Rxn<int>();
+  var answerMessage        = ''.obs;
+  var correctAnswersCount  = 0.obs;
+  var totalTrophies        = 0.obs;
+
+  // Stores { questionId: optionId } for submit
+  final _sessionAnswers = <int, int>{};
 
   final TextEditingController searchController = TextEditingController();
 
@@ -40,37 +54,166 @@ class QuizViewModel extends GetxController {
   void onInit() {
     super.onInit();
     totalTrophies.value = _storage.read('totalTrophies') ?? 0;
+    fetchSpecs();
   }
 
-  void saveTrophies(int amount) {
-    totalTrophies.value += amount;
-    _storage.write('totalTrophies', totalTrophies.value);
+  // ─── Fetch Specs ───────────────────────────────────────────────────────────
+
+  Future<void> fetchSpecs() async {
+    isLoadingSpecs.value = true;
+    specs.value = await contentRepo.getSpecs();
+    isLoadingSpecs.value = false;
+    
+    // Background fetch counts to match home screen
+    _fetchCountsSilently();
   }
 
-  List<Map<String, dynamic>> get filteredMajors {
-    if (searchQuery.value.isEmpty) {
-      return MockData.majors;
+  Future<void> _fetchCountsSilently() async {
+    for (var i = 0; i < specs.length; i++) {
+      if (specs[i].termsCount == 0) {
+        final terms = await contentRepo.getTermsBySpec(specs[i].id);
+        if (terms.isNotEmpty) {
+          specs[i] = specs[i].copyWith(termsCount: terms.length);
+        }
+      }
     }
-    return MockData.majors.where((major) {
-      final title = major['title'].toString().toLowerCase();
-      final arabicTitle = major['arabicTitle'].toString().toLowerCase();
-      final query = searchQuery.value.toLowerCase();
-      return title.contains(query) || arabicTitle.contains(query);
-    }).toList();
   }
 
-  void updateSearchQuery(String query) {
-    searchQuery.value = query;
+  // ─── Search ────────────────────────────────────────────────────────────────
+
+  List<SpecModel> get filteredSpecs {
+    if (searchQuery.value.isEmpty) return specs;
+    final q = searchQuery.value.toLowerCase();
+    return specs.where((s) =>
+        s.name.toLowerCase().contains(q) ||
+        s.nameAr.contains(searchQuery.value)).toList();
   }
+
+  void updateSearchQuery(String query) => searchQuery.value = query;
 
   void clearSearch() {
     searchController.clear();
     updateSearchQuery('');
   }
 
-  void selectMajor(Map<String, dynamic> major) {
-    selectedMajor.value = major;
-    currentView.value = QuizViewType.levels;
+  // ─── Select major (spec) ───────────────────────────────────────────────────
+
+  Future<void> selectSpec(SpecModel spec) async {
+    selectedSpec.value = spec;
+    currentView.value  = QuizViewType.levels;
+    await fetchLevels(spec.id);
+  }
+
+  Future<void> fetchLevels(int specId) async {
+    isLoadingLevels.value = true;
+    levels.value = await quizRepo.getLevels(specId);
+    isLoadingLevels.value = false;
+  }
+
+  // ─── Start Quiz ────────────────────────────────────────────────────────────
+
+  Future<void> startQuiz(QuizLevelModel level) async {
+    if (level.isLocked) return;
+    selectedLevel.value = level;
+    _sessionAnswers.clear();
+    resetQuiz();
+    isLoadingQuestions.value = true;
+    questions.value = await quizRepo.getQuestions(level.id);
+    isLoadingQuestions.value = false;
+    currentView.value = QuizViewType.questions;
+  }
+
+  void resetQuiz() {
+    currentQuestionIndex.value = 0;
+    selectedOptionId.value     = null;
+    isAnswered.value           = false;
+    isCorrect.value            = false;
+    correctOptionId.value      = null;
+    answerMessage.value        = '';
+    correctAnswersCount.value  = 0;
+    _sessionAnswers.clear();
+  }
+
+  void retryQuiz() {
+    resetQuiz();
+    currentView.value = QuizViewType.questions;
+  }
+
+  // ─── Answer ────────────────────────────────────────────────────────────────
+
+  Future<void> selectOption(int optionId) async {
+    if (isAnswered.value) return;
+    selectedOptionId.value = optionId;
+
+    final question = questions[currentQuestionIndex.value];
+    _sessionAnswers[question.id] = optionId;
+
+    // Call check-answer immediately for instant feedback
+    final result = await quizRepo.checkAnswer(question.id, optionId);
+    isAnswered.value = true;
+
+    if (result != null) {
+      isCorrect.value      = result.isCorrect;
+      correctOptionId.value = result.correctOptionId;
+      answerMessage.value  = result.message;
+      if (result.isCorrect) correctAnswersCount.value++;
+    }
+  }
+
+  // ─── Navigation ────────────────────────────────────────────────────────────
+
+  Future<void> nextQuestion() async {
+    if (currentQuestionIndex.value < questions.length - 1) {
+      currentQuestionIndex.value++;
+      selectedOptionId.value  = null;
+      isAnswered.value        = false;
+      isCorrect.value         = false;
+      correctOptionId.value   = null;
+      answerMessage.value     = '';
+    } else {
+      // Submit quiz
+      await _submitQuiz();
+      currentView.value = QuizViewType.results;
+    }
+  }
+
+  void previousQuestion() {
+    if (currentQuestionIndex.value > 0) {
+      currentQuestionIndex.value--;
+      selectedOptionId.value = null;
+      isAnswered.value       = false;
+      isCorrect.value        = false;
+      correctOptionId.value  = null;
+      answerMessage.value    = '';
+    }
+  }
+
+  Future<void> _submitQuiz() async {
+    if (selectedLevel.value == null) return;
+    final result = await quizRepo.submitQuiz(selectedLevel.value!.id, _sessionAnswers);
+    
+    if (result != null) {
+      // Use backend results if available
+      if (result['correct_answers'] != null) {
+        correctAnswersCount.value = int.tryParse(result['correct_answers'].toString()) ?? correctAnswersCount.value;
+      }
+      
+      // Update trophies based on points_earned from backend
+      final earned = int.tryParse((result['points_earned'] ?? 0).toString()) ?? 0;
+      if (earned > 0) {
+        saveTrophies(earned);
+      }
+
+      // Store pass/fail result and message from backend
+      final isPassed = result['is_passed'] ?? false;
+      answerMessage.value = result['message'] ?? '';
+
+      // ONLY re-fetch levels if the user passed — this ensures the next level
+      // only appears unlocked when the backend actually unlocks it
+      if (isPassed && selectedSpec.value != null) {
+        await fetchLevels(selectedSpec.value!.id);
+      }
+    }
   }
 
   void goBack() {
@@ -86,100 +229,20 @@ class QuizViewModel extends GetxController {
     }
   }
 
-  bool isLevelLocked(int levelIndex) {
-    return levelIndex > 0;
+  // ─── Trophies ──────────────────────────────────────────────────────────────
+
+  void saveTrophies(int amount) {
+    totalTrophies.value += amount;
+    _storage.write('totalTrophies', totalTrophies.value);
   }
 
-  void startQuiz(int levelIndex) {
-    if (isLevelLocked(levelIndex)) return;
-    
-    selectedLevel.value = levelIndex + 1;
-    _loadMockQuestions();
-    resetQuiz();
-    currentView.value = QuizViewType.questions;
-  }
-
-  void resetQuiz() {
-    currentQuestionIndex.value = 0;
-    selectedOptionIndex.value = -1;
-    isAnswered.value = false;
-    correctAnswersCount.value = 0;
-  }
-
-  void retryQuiz() {
-    resetQuiz();
-    currentView.value = QuizViewType.questions;
-  }
-
-  void _loadMockQuestions() {
-    quizQuestions.value = [
-      QuizQuestion(
-        question: "What is an Algorithm?",
-        options: [
-          "A programming language",
-          "A step-by-step method for solving problems",
-          "A type of computer hardware",
-          "A software application"
-        ],
-        correctAnswerIndex: 1,
-      ),
-      QuizQuestion(
-        question: "What does HTML stand for?",
-        options: [
-          "Hyper Text Markup Language",
-          "High Tech Modern Language",
-          "Hyperlink and Text Management",
-          "Home Tool Markup Language"
-        ],
-        correctAnswerIndex: 0,
-      ),
-      QuizQuestion(
-        question: "Which data structure follows FIFO?",
-        options: [
-          "Stack",
-          "Tree",
-          "Queue",
-          "Graph"
-        ],
-        correctAnswerIndex: 2,
-      ),
-    ];
-  }
-
-  void selectOption(int index) {
-    if (isAnswered.value) return;
-    selectedOptionIndex.value = index;
-    isAnswered.value = true;
-    
-    if (index == quizQuestions[currentQuestionIndex.value].correctAnswerIndex) {
-      correctAnswersCount.value++;
-    }
-  }
-
-  void nextQuestion() {
-    if (currentQuestionIndex.value < quizQuestions.length - 1) {
-      currentQuestionIndex.value++;
-      selectedOptionIndex.value = -1;
-      isAnswered.value = false;
-    } else {
-      // Award 10 trophies for each correct answer
-      saveTrophies(correctAnswersCount.value * 10);
-      currentView.value = QuizViewType.results;
-    }
-  }
-
-  void previousQuestion() {
-    if (currentQuestionIndex.value > 0) {
-      currentQuestionIndex.value--;
-      selectedOptionIndex.value = -1;
-      isAnswered.value = false;
-    }
-  }
+  // ─── Result message ────────────────────────────────────────────────────────
 
   String get resultMessage {
-    double percentage = correctAnswersCount.value / quizQuestions.length;
-    if (percentage == 1.0) return 'nice_progress'.tr;
-    if (percentage >= 0.6) return 'good_job'.tr;
+    if (questions.isEmpty) return '';
+    final pct = correctAnswersCount.value / questions.length;
+    if (pct == 1.0) return 'nice_progress'.tr;
+    if (pct >= 0.6) return 'good_job'.tr;
     return 'keep_practicing'.tr;
   }
 

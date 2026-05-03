@@ -36,4 +36,16 @@ class MockAuthRepository implements IAuthRepository {
     await Future.delayed(const Duration(seconds: 1));
     return true;
   }
+
+  @override
+  Future<bool> verifyOtp(String email, String otp) async {
+    await Future.delayed(const Duration(seconds: 1));
+    return true;
+  }
+
+  @override
+  Future<bool> resetPasswordWithOtp(String email, String otp, String newPassword) async {
+    await Future.delayed(const Duration(seconds: 1));
+    return true;
+  }
 }

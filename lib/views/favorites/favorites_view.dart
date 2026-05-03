@@ -3,9 +3,12 @@ import 'package:get/get.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../core/app_colors.dart';
 import '../../viewmodels/favorites_viewmodel.dart';
+import '../../viewmodels/home_viewmodel.dart';
 import '../../viewmodels/main_viewmodel.dart';
 import '../terms/term_details_view.dart';
 import '../../core/mock_data.dart';
+
+import '../home/widgets/term_list_tile.dart';
 
 class FavoritesView extends StatelessWidget {
   const FavoritesView({super.key});
@@ -210,45 +213,11 @@ class FavoritesView extends StatelessWidget {
               separatorBuilder: (_, __) => const SizedBox(height: 12),
               itemBuilder: (context, index) {
                 final term = list[index];
-                return GestureDetector(
+                return TermListTile(
+                  index: index + 1,
+                  term: term.title,
+                  category: controller.getTermCategory(term),
                   onTap: () => Get.to(() => TermDetailsView(term: term)),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(24),
-                      border: Border.all(color: const Color(0xFFF1F1F1)),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            term.title,
-                            style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF3B2A51),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF3EDF7),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Text(
-                            term.category,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF8D64AA),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                 );
               },
             ),
@@ -312,7 +281,8 @@ class FavoritesView extends StatelessWidget {
   }
 
   void _showFilterSheet(BuildContext context, FavoritesViewModel controller) {
-    final majors = MockData.majors.map((m) => m['title']!).toList();
+    final homeVm = Get.find<HomeViewModel>();
+    final majors = homeVm.specs.map((s) => Get.locale?.languageCode == 'ar' ? s.nameAr : s.name).toList();
     
     Get.bottomSheet(
       Container(

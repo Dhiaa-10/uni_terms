@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:uniterm/core/app_colors.dart';
-import 'package:uniterm/models/term_model.dart';
-import 'package:uniterm/viewmodels/favorites_viewmodel.dart';
-import 'package:uniterm/viewmodels/term_details_viewmodel.dart';
+import '../../core/app_colors.dart';
+import '../../models/term_model.dart';
+import '../../viewmodels/favorites_viewmodel.dart';
+import '../../viewmodels/home_viewmodel.dart';
+import '../../viewmodels/term_details_viewmodel.dart';
 
 class TermDetailsView extends StatelessWidget {
   final TermModel term;
@@ -13,6 +14,17 @@ class TermDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final favoritesVm = Get.find<FavoritesViewModel>();
     final detailsVm = Get.put(TermDetailsViewModel());
+
+    // Track usage click when details are opened
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      try {
+        if (Get.isRegistered<HomeViewModel>()) {
+          Get.find<HomeViewModel>().trackTermClick(term);
+        }
+      } catch (e) {
+        // HomeViewModel might not be available in all contexts, ignore safely
+      }
+    });
 
     return Scaffold(
       backgroundColor: AppColors.onboardingBg,
@@ -175,7 +187,41 @@ class TermDetailsView extends StatelessWidget {
               ),
               const Spacer(),
               // Speaker Icon
-              _buildIconButton(Icons.volume_up_rounded, () {}, hasBg: true),
+              Obx(() {
+                final speaking = detailsVm.isSpeaking.value;
+                return GestureDetector(
+                  onTap: () {
+                    final text = detailsVm.isEnglishFirst.value
+                        ? term.title
+                        : term.arabicTranslation;
+                    detailsVm.speak(text);
+                  },
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    width: 34,
+                    height: 34,
+                    decoration: BoxDecoration(
+                      color: speaking
+                          ? AppColors.subtitleColor.withOpacity(0.15)
+                          : const Color(0xFFD9D9D9).withOpacity(0.5),
+                      shape: BoxShape.circle,
+                      border: speaking
+                          ? Border.all(
+                              color: AppColors.subtitleColor,
+                              width: 1.5,
+                            )
+                          : null,
+                    ),
+                    child: Icon(
+                      speaking ? Icons.stop_rounded : Icons.volume_up_rounded,
+                      size: 18,
+                      color: speaking
+                          ? AppColors.subtitleColor
+                          : AppColors.subtitleColor,
+                    ),
+                  ),
+                );
+              }),
               const SizedBox(width: 8),
               // Copy Icon
               _buildIconButton(
@@ -252,7 +298,7 @@ class TermDetailsView extends StatelessWidget {
                       Expanded(
                         child: Text(
                           term.title,
-                          textAlign: TextAlign.left,
+                          textAlign: TextAlign.start,
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
@@ -265,7 +311,7 @@ class TermDetailsView extends StatelessWidget {
                       Expanded(
                         child: Text(
                           term.arabicTranslation,
-                          textAlign: TextAlign.right,
+                          textAlign: TextAlign.end,
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
@@ -281,7 +327,7 @@ class TermDetailsView extends StatelessWidget {
                       Expanded(
                         child: Text(
                           term.arabicTranslation,
-                          textAlign: TextAlign.left,
+                          textAlign: TextAlign.start,
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
@@ -294,7 +340,7 @@ class TermDetailsView extends StatelessWidget {
                       Expanded(
                         child: Text(
                           term.title,
-                          textAlign: TextAlign.right,
+                          textAlign: TextAlign.end,
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,

@@ -9,7 +9,7 @@ class QuizView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(QuizViewModel());
+    final controller = Get.find<QuizViewModel>();
 
     return Scaffold(
       backgroundColor: AppColors.screenBg,
@@ -29,7 +29,7 @@ class QuizView extends StatelessWidget {
 
   Widget _buildResultsView(QuizViewModel controller) {
     final score = controller.correctAnswersCount.value;
-    final total = controller.quizQuestions.length;
+    final total = controller.questions.length;
     final percentage = (score / total * 100).toInt();
     final isPerfect = score == total;
 
@@ -204,7 +204,7 @@ class QuizView extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'level'.tr + ' ${controller.selectedLevel.value}'.padLeft(2, '0'),
+                    '${controller.selectedLevel.value?.name ?? 'level'.tr}',
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -212,7 +212,7 @@ class QuizView extends StatelessWidget {
                     ),
                   ),
                   Obx(() => Text(
-                        '${'question'.tr} ${controller.currentQuestionIndex.value + 1} ${'of'.tr} ${controller.quizQuestions.length}',
+                        '${'question'.tr} ${controller.currentQuestionIndex.value + 1} ${'of'.tr} ${controller.questions.length}',
                         style: const TextStyle(color: Colors.white, fontSize: 12),
                       )),
                 ],
@@ -220,7 +220,7 @@ class QuizView extends StatelessWidget {
               const SizedBox(height: 24),
               // Progress Bar
               Obx(() {
-                double progress = (controller.currentQuestionIndex.value + 1) / controller.quizQuestions.length;
+                double progress = controller.questions.isEmpty ? 0 : (controller.currentQuestionIndex.value + 1) / controller.questions.length;
                 return Container(
                   height: 6,
                   width: double.infinity,
@@ -248,9 +248,16 @@ class QuizView extends StatelessWidget {
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(20),
             child: Obx(() {
-              if (controller.quizQuestions.isEmpty) return const SizedBox();
-              final question = controller.quizQuestions[controller.currentQuestionIndex.value];
-              
+              if (controller.isLoadingQuestions.value) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (controller.questions.isEmpty) return const SizedBox();
+              final question = controller.questions[controller.currentQuestionIndex.value];
+              final isAr = Get.locale?.languageCode == 'ar';
+              final questionText = isAr && question.questionAr != null
+                  ? question.questionAr!
+                  : question.question;
+
               return Container(
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
@@ -262,7 +269,7 @@ class QuizView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      question.question,
+                      questionText,
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -271,12 +278,11 @@ class QuizView extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 24),
-                    ...List.generate(question.options.length, (index) {
+                    ...question.options.map((option) {
                       return _buildOptionCard(
-                        text: question.options[index],
-                        index: index,
+                        text: option.text,
+                        optionId: option.id,
                         controller: controller,
-                        correctIndex: question.correctAnswerIndex,
                       );
                     }),
                   ],
@@ -332,14 +338,23 @@ class QuizView extends StatelessWidget {
 
   Widget _buildOptionCard({
     required String text,
-    required int index,
+    required int optionId,
     required QuizViewModel controller,
-    required int correctIndex,
   }) {
     return Obx(() {
-      bool isSelected = controller.selectedOptionIndex.value == index;
-      bool isCorrect = index == correctIndex;
-      bool isAnswered = controller.isAnswered.value;
+      final bool isSelected = controller.selectedOptionId.value == optionId;
+      final bool isAnswered = controller.isAnswered.value;
+
+      // An option is "the correct one" if:
+      //   1. The backend says this specific option ID is the correct one, OR
+      //   2. This is the selected option AND the backend confirmed it's correct
+      final bool isThisCorrect = isAnswered && (
+        controller.correctOptionId.value == optionId ||
+        (isSelected && controller.isCorrect.value)
+      );
+
+      // An option is "wrong" if the user selected it, we have an answer, but it's NOT correct
+      final bool isThisWrong = isAnswered && isSelected && !isThisCorrect;
 
       Color borderColor = const Color(0xFFE5E7EB);
       Color bgColor = Colors.white;
@@ -353,11 +368,11 @@ class QuizView extends StatelessWidget {
       );
 
       if (isAnswered) {
-        if (isCorrect) {
+        if (isThisCorrect) {
           borderColor = const Color(0xFF22C55E);
           bgColor = const Color(0xFFF0FDF4);
           icon = const Icon(Icons.check_circle, color: Color(0xFF22C55E), size: 24);
-        } else if (isSelected) {
+        } else if (isThisWrong) {
           borderColor = const Color(0xFFEF4444);
           bgColor = const Color(0xFFFEF2F2);
           icon = const Icon(Icons.cancel, color: Color(0xFFEF4444), size: 24);
@@ -365,7 +380,7 @@ class QuizView extends StatelessWidget {
       }
 
       return GestureDetector(
-        onTap: () => controller.selectOption(index),
+        onTap: () => controller.selectOption(optionId),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           margin: const EdgeInsets.only(bottom: 12),
@@ -385,10 +400,10 @@ class QuizView extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                    color: isAnswered && isCorrect 
-                        ? const Color(0xFF166534) 
-                        : isAnswered && isSelected && !isCorrect 
-                            ? const Color(0xFF991B1B) 
+                    color: isThisCorrect
+                        ? const Color(0xFF166534)
+                        : isThisWrong
+                            ? const Color(0xFF991B1B)
                             : const Color(0xFF3B2A51),
                   ),
                 ),
@@ -512,13 +527,22 @@ class QuizView extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 Expanded(
-                  child: Obx(() => ListView.builder(
-                        itemCount: controller.filteredMajors.length,
-                        itemBuilder: (context, index) {
-                          final major = controller.filteredMajors[index];
-                          return _buildMajorCard(major, () => controller.selectMajor(major));
-                        },
-                      )),
+                  child: Obx(() {
+                    if (controller.isLoadingSpecs.value) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    return ListView.builder(
+                      itemCount: controller.filteredSpecs.length,
+                      itemBuilder: (context, index) {
+                        final spec = controller.filteredSpecs[index];
+                        final major = spec.toUiMap();
+                        return _buildMajorCard(
+                          major,
+                          () => controller.selectSpec(spec),
+                        );
+                      },
+                    );
+                  }),
                 ),
               ],
             ),
@@ -705,25 +729,30 @@ class QuizView extends StatelessWidget {
                 const Divider(height: 1, color: Color(0xFFEEEEEE)),
                 const SizedBox(height: 16),
                 Expanded(
-                  child: GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 12,
-                      mainAxisSpacing: 12,
-                      childAspectRatio: 1.3,
-                    ),
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      final isLocked = controller.isLevelLocked(index);
-                      return _buildLevelCard(index + 1, isLocked, () {
-                        if (isLocked) {
-                          _showLockedDialog();
-                        } else {
-                          controller.startQuiz(index);
-                        }
-                      });
-                    },
-                  ),
+                  child: Obx(() {
+                    if (controller.isLoadingLevels.value) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    return GridView.builder(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 12,
+                        mainAxisSpacing: 12,
+                        childAspectRatio: 1.3,
+                      ),
+                      itemCount: controller.levels.length,
+                      itemBuilder: (context, index) {
+                        final level = controller.levels[index];
+                        return _buildLevelCard(index + 1, level.isLocked, () {
+                          if (level.isLocked) {
+                            _showLockedDialog();
+                          } else {
+                            controller.startQuiz(level);
+                          }
+                        });
+                      },
+                    );
+                  }),
                 ),
               ],
             ),
@@ -748,7 +777,6 @@ class QuizView extends StatelessWidget {
     );
 
     final Color textColor = isLocked ? Colors.white : const Color(0xFF3B2A51);
-    final IconData icon = isLocked ? Icons.lock_outline : Icons.lock_open_outlined;
     final String levelText = '${'level'.tr} ${level.toString().padLeft(2, '0')}';
 
     return InkWell(
